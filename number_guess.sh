@@ -127,3 +127,5 @@ SAVE_GAME() {
   INSERT_GAME=$($PSQL "INSERT INTO games(user_id, best_guess) VALUES($USER_ID, $NUMBER_OF_GUESSES);")
   USER_NAME=$($PSQL "SELECT username FROM users WHERE user_id=$USER_ID;")
 }
+
+INPUT_NAME
