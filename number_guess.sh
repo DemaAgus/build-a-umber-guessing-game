@@ -6,8 +6,8 @@ INPUT_NAME() {
   read NAME
   n=${#NAME}
 
-  #When you run your script, you should prompt the user for a username with Enter your username:, and take a username as input.Your database should allow usernames that are 22 characters
-  if [[ ! $n -le 22 ]] || [[ ! $n -gt 0 ]]
+  #When you run your script, you should prompt the user for a username with Enter your username:, and take a username as input.Your database should allow usernames that are 60 characters
+  if [[ ! $n -le 60 ]] || [[ ! $n -gt 0 ]]
   then
     INPUT_NAME
   else
