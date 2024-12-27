@@ -68,41 +68,30 @@ CHECK_ANSWER() {
   GUESS_COUNT=$3
   USSER_GUESS=$4
   
-  #Until they guess the secret number, 
-  #it should print 
-  #It's lower than that, guess again: if the previous input was higher than the secret number, and
-  #It's higher than that, guess again: if the previous input was lower than the secret number. 
-  #Asking for input each time until they input the secret number.
   if [[ $USSER_GUESS -lt $CORRECT_ANSWER ]]
-  then
-    echo "It's lower than that, guess again:"
-    read USSER_GUESS
-  elif [[ $USSER_GUESS -gt $CORRECT_ANSWER ]]
   then
     echo "It's higher than that, guess again:"
     read USSER_GUESS
+  elif [[ $USSER_GUESS -gt $CORRECT_ANSWER ]]
+  then
+    echo "It's lower than that, guess again:"
+    read USSER_GUESS
   else
-    GUESS_COUNT=$GUESS_COUNT
+    # When the number is guessed, print success message and exit
+    echo "You guessed it in $GUESS_COUNT tries. The secret number was $CORRECT_ANSWER. Nice job!"
+    SAVE_USER "$USER_NAME" "$GUESS_COUNT"
+    exit 0
   fi
 
   GUESS_COUNT=$(( $GUESS_COUNT + 1 ))
   if [[ ! $USSER_GUESS =~ ^[0-9]+$ ]]
   then
-    INPUT_GUESS $USER_NAME $CORRECT_ANSWER $GUESS_COUNT $USSER_GUESS
-  elif [[ $USSER_GUESS -lt $CORRECT_ANSWER ]] || [[ $USSER_GUESS -gt $CORRECT_ANSWER ]]
-  then
-    CHECK_ANSWER $USER_NAME $CORRECT_ANSWER $GUESS_COUNT $USSER_GUESS
-  elif [[ $USSER_GUESS -eq $CORRECT_ANSWER ]]
-  then
-    #When the secret number is guessed, your script should print You guessed it in <number_of_guesses> tries. The secret number was <secret_number>. 
-    #Nice job! and finish running
-    SAVE_USER $USER_NAME $GUESS_COUNT
-    NUMBER_OF_GUESSES=$GUESS_COUNT
-    SECRET_NUMBER=$CORRECT_ANSWER
-    echo "You guessed it in $NUMBER_OF_GUESSES tries. The secret number was $SECRET_NUMBER. Nice job!"
+    INPUT_GUESS "$USER_NAME" "$CORRECT_ANSWER" "$GUESS_COUNT" "$USSER_GUESS"
+  else
+    CHECK_ANSWER "$USER_NAME" "$CORRECT_ANSWER" "$GUESS_COUNT" "$USSER_GUESS"
   fi
-
 }
+
 
 SAVE_USER() {
   USER_NAME=$1 
